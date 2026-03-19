@@ -205,7 +205,7 @@ static void Heating_ControlTask(void)
                     /* 环境温度低于阈值，进入表面温度闭环前的简化控制 */
                     error = g_surf_temp_target - g_surf_temp_real;
 
-                    if (error >= 5.0f)
+                    if (error >= 1.0f)
                     {
                         /* 远低于目标值：全功率快速加热 */
                         pwm_cmd = 100.0f;
@@ -215,7 +215,7 @@ static void Heating_ControlTask(void)
                     else if (error > 0.0f)
                     {
                         /* 接近目标值：简化比例调功 */
-                        pwm_cmd =  5.0f + error * 15.0f;   /* 例如差 3℃ -> 30% */
+                        pwm_cmd =  10.0f + error * 20.0f;   /* 例如差 3℃ -> 30% */
                         pwm_cmd = LimitFloat(pwm_cmd, 0.0f, 100.0f);
                         output_enable = (pwm_cmd > 0.0f) ? 1U : 0U;
                         regulation_stage = (pwm_cmd > 0.0f) ? 1U : 0U;
