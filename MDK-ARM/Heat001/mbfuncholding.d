@@ -1,0 +1,12 @@
+heat001\mbfuncholding.o: D:\Modbus\freemodbus-v1.6\modbus\functions\mbfuncholding.c
+heat001\mbfuncholding.o: D:\keil55\ARM\ARMCC\Bin\..\include\stdlib.h
+heat001\mbfuncholding.o: D:\keil55\ARM\ARMCC\Bin\..\include\string.h
+heat001\mbfuncholding.o: D:/Modbus/freemodbus-v1.6/demo/BARE/port/port.h
+heat001\mbfuncholding.o: D:\keil55\ARM\ARMCC\Bin\..\include\assert.h
+heat001\mbfuncholding.o: D:\keil55\ARM\ARMCC\Bin\..\include\inttypes.h
+heat001\mbfuncholding.o: D:\keil55\ARM\ARMCC\Bin\..\include\stdint.h
+heat001\mbfuncholding.o: D:/Modbus/freemodbus-v1.6/modbus/include/mb.h
+heat001\mbfuncholding.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbport.h
+heat001\mbfuncholding.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbproto.h
+heat001\mbfuncholding.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbframe.h
+heat001\mbfuncholding.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbconfig.h

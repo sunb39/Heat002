@@ -1,0 +1,39 @@
+# Keil / MDK build outputs
+MDK-ARM/Objects/
+MDK-ARM/List/
+MDK-ARM/*.bak
+MDK-ARM/*.dep
+MDK-ARM/*.crf
+MDK-ARM/*.d
+MDK-ARM/*.o
+MDK-ARM/*.axf
+MDK-ARM/*.hex
+MDK-ARM/*.bin
+MDK-ARM/*.map
+MDK-ARM/*.lst
+MDK-ARM/*.sct.old
+MDK-ARM/JLinkLog.txt
+MDK-ARM/ExtDll.iex
+MDK-ARM/ProjectName.htm
+
+# Keil temp / user files
+*.uvgui.*
+*.tmp
+*.temp
+*.lnp
+*.sbr
+*.plg
+*.opt
+
+# STM32CubeMX generated metadata sometimes unnecessary
+*.launch
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# logs
+*.log

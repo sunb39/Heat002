@@ -1,0 +1,168 @@
+
+
+#ifndef __MODBUS_REGS_H
+#define __MODBUS_REGS_H
+
+#include "mb.h"
+#include "mbport.h"
+#include <stdint.h>
+
+/* =========================================================
+ * 协议表寄存器范围定义
+ * 你的协议表地址范围是 1 ~ 68
+ * 因此保持寄存器缓冲区也按 1~68 来映射
+ * ========================================================= */
+#define HREG_START_ADDR                 1
+#define HREG_END_ADDR                   68
+#define HREG_NUMBER                     68
+
+/* =========================================================
+ * R/W Float 区（每个 float 占 2 个寄存器）
+ * 采用高字在前、低字在后
+ * ========================================================= */
+#define REG_ENV_TEMP_THRESHOLD_H        1   /* 环境温度阈值 高16位 */
+#define REG_ENV_TEMP_THRESHOLD_L        2   /* 环境温度阈值 低16位 */
+
+#define REG_SURF_TEMP_TARGET_H          3   /* 表面温度目标值 高16位 */
+#define REG_SURF_TEMP_TARGET_L          4   /* 表面温度目标值 低16位 */
+
+#define REG_MANUAL_PWM_SET_H            5   /* 手动PWM设定值 高16位 */
+#define REG_MANUAL_PWM_SET_L            6   /* 手动PWM设定值 低16位 */
+
+/* =========================================================
+ * R/W Word 区
+ * ========================================================= */
+#define REG_CTRL_MODE_SET               7   /* 控制模式 */
+#define REG_SLAVE_ADDR                  8   /* 从机地址 */
+#define REG_BAUD_CODE                   9   /* 波特率代码 */
+#define REG_TEMP_ALARM_EN              10   /* 温度异常上报使能 */
+#define REG_CMD_SAVE_PARAM             11   /* 保存参数命令 */
+#define REG_CMD_CLEAR_FAULT            12   /* 清故障命令 */
+#define REG_CMD_RESTORE_DEFAULT        13   /* 恢复默认参数命令 */
+#define REG_CMD_SOFT_RESET             14   /* 软复位命令 */
+
+/* 15~40 保留 */
+#define REG_RESERVED_RW_01             15
+#define REG_RESERVED_RW_26             40
+
+/* =========================================================
+ * R Float 区
+ * ========================================================= */
+#define REG_ENV_TEMP_REAL_H            41   /* 环境温度实时值 高16位 */
+#define REG_ENV_TEMP_REAL_L            42   /* 环境温度实时值 低16位 */
+
+#define REG_SURF_TEMP_REAL_H           43   /* 表面温度实时值 高16位 */
+#define REG_SURF_TEMP_REAL_L           44   /* 表面温度实时值 低16位 */
+
+#define REG_HEAT_OUT_VOLT_H            45   /* 加热板输出电压 高16位 */
+#define REG_HEAT_OUT_VOLT_L            46   /* 加热板输出电压 低16位 */
+
+#define REG_PWM_DUTY_REAL_H            47   /* 当前PWM占空比 高16位 */
+#define REG_PWM_DUTY_REAL_L            48   /* 当前PWM占空比 低16位 */
+
+/* =========================================================
+ * R Word 区
+ * ========================================================= */
+#define REG_STATUS_WORD                49   /* 设备状态字 */
+#define REG_FAULT_WORD                 50   /* 故障状态字 */
+#define REG_HEAT_OUTPUT_STATUS         51   /* 加热输出状态 */
+#define REG_ENV_PROBE_STATUS           52   /* 环境探头状态 */
+#define REG_SURF_PROBE_STATUS          53   /* 表面探头状态 */
+#define REG_ENV_PROBE_ERR_CNT          54   /* 环境探头异常计数 */
+#define REG_SURF_PROBE_ERR_CNT         55   /* 表面探头异常计数 */
+#define REG_COMM_ERR_CNT               56   /* 通信异常计数 */
+#define REG_FW_MAJOR_VER               57   /* 固件主版本号 */
+#define REG_FW_MINOR_VER               58   /* 固件次版本号 */
+
+/* 59~68 保留 */
+#define REG_RESERVED_R_01              59
+#define REG_RESERVED_R_10              68
+
+/* =========================================================
+ * 控制模式定义
+ * ========================================================= */
+#define CTRL_MODE_OFF                   0   /* 关闭模式 */
+#define CTRL_MODE_AUTO                  1   /* 自动控制 */
+#define CTRL_MODE_FORCE_FULL            2   /* 强制全功率 */
+#define CTRL_MODE_MANUAL_PWM            3   /* 手动PWM模式 */
+
+/* =========================================================
+ * 波特率代码定义
+ * ========================================================= */
+#define BAUD_CODE_9600                  0
+#define BAUD_CODE_19200                 1
+#define BAUD_CODE_38400                 2
+#define BAUD_CODE_115200                3
+
+/* =========================================================
+ * 全局寄存器镜像缓冲区
+ * 下标 0 不使用，直接使用 1~68 对应协议表地址
+ * ========================================================= */
+extern uint16_t usHoldingRegBuf[HREG_NUMBER + 1];
+
+/* =========================================================
+ * 参数变量（R/W）
+ * 这些变量是“配置参数”，可通过 Modbus 读写
+ * ========================================================= */
+extern float    g_env_temp_threshold;   /* 环境温度阈值 */
+extern float    g_surf_temp_target;     /* 表面温度目标值 */
+extern float    g_manual_pwm_set;       /* 手动PWM设定值 */
+
+extern uint16_t g_ctrl_mode_set;        /* 控制模式设定 */
+extern uint16_t g_slave_addr;           /* 从机地址 */
+extern uint16_t g_baud_code;            /* 波特率代码 */
+extern uint16_t g_temp_alarm_en;        /* 温度异常上报使能 */
+
+/* 命令寄存器 */
+extern uint16_t g_cmd_save_param;       /* 保存参数命令 */
+extern uint16_t g_cmd_clear_fault;      /* 清故障命令 */
+extern uint16_t g_cmd_restore_default;  /* 恢复默认参数命令 */
+extern uint16_t g_cmd_soft_reset;       /* 软复位命令 */
+
+/* =========================================================
+ * 实时变量（R）
+ * 这些变量是运行时实时数据，只读上报
+ * ========================================================= */
+extern float    g_env_temp_real;        /* 环境温度实时值 */
+extern float    g_surf_temp_real;       /* 表面温度实时值 */
+extern float    g_heat_out_volt;        /* 加热板输出电压 */
+extern float    g_pwm_duty_real;        /* 当前PWM占空比 */
+
+extern uint16_t g_status_word;          /* 设备状态字 */
+extern uint16_t g_fault_word;           /* 故障状态字 */
+extern uint16_t g_heat_output_status;   /* 加热输出状态 */
+extern uint16_t g_env_probe_status;     /* 环境探头状态 */
+extern uint16_t g_surf_probe_status;    /* 表面探头状态 */
+extern uint16_t g_env_probe_err_cnt;    /* 环境探头异常计数 */
+extern uint16_t g_surf_probe_err_cnt;   /* 表面探头异常计数 */
+extern uint16_t g_comm_err_cnt;         /* 通信异常计数 */
+extern uint16_t g_fw_major_ver;         /* 固件主版本号 */
+extern uint16_t g_fw_minor_ver;         /* 固件次版本号 */
+
+/* =========================================================
+ * 接口函数
+ * ========================================================= */
+
+/* 加载默认参数 */
+void Modbus_LoadDefaultParams(void);
+
+/* Modbus 寄存器初始化
+ * 内部流程：先默认参数 -> 再尝试从 Flash 加载 -> 再同步到寄存器 */
+void Modbus_RegsInit(void);
+
+/* 业务变量 -> 寄存器镜像 */
+void Modbus_RegsSyncToBuffer(void);
+
+/* 寄存器镜像 -> 参数变量 */
+void Modbus_RegsSyncFromBuffer(void);
+
+/* 命令处理函数
+ * 在主循环中调用，负责处理保存参数、清故障、恢复默认等命令 */
+void Modbus_CmdProcess(void);
+
+/* FreeModbus 保持寄存器回调函数 */
+eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress,
+                             USHORT usNRegs, eMBRegisterMode eMode);
+
+#endif
+
