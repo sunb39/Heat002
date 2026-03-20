@@ -38,3 +38,4 @@ heat001\main.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbport.h
 heat001\main.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbproto.h
 heat001\main.o: ../App/m1820.h
 heat001\main.o: ../App/modbus_regs.h
+heat001\main.o: D:\keil55\ARM\ARMCC\Bin\..\include\stdio.h

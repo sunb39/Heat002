@@ -28,6 +28,7 @@
 #include "m1820.h"
 #include "mbport.h"
 #include "modbus_regs.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,6 +67,31 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+/* printf 重定向到 USART2（串口2） */
+int fputc(int ch, FILE *f)
+{
+    HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 100);
+    return ch;
+}
+static void Debug_PrintStatus(void)
+{
+    char tx_buf[128];
+    int len;
+
+    len = snprintf(tx_buf, sizeof(tx_buf),
+                   "%u,%d,%d,%d,%d,%u\r\n",
+                   (unsigned int)(HAL_GetTick() / 1000U),
+                   (int)(g_env_temp_real * 100.0f),
+                   (int)(g_surf_temp_real * 100.0f),
+                   (int)(g_pwm_duty_real * 100.0f),
+                   (int)(g_heat_out_volt * 100.0f),
+                   (unsigned int)g_ctrl_mode_set);
+
+    if (len > 0)
+    {
+        HAL_UART_Transmit(&huart2, (uint8_t *)tx_buf, (uint16_t)len, 50);
+    }
+}
 /* 浮点限幅函数 */
 static float LimitFloat(float value, float min_val, float max_val)
 {
@@ -358,9 +384,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Transmit(&huart2, (uint8_t *)"BOOT\r\n", 6, 100);
   /* 启动 TIM4_CH1（定时器4通道1）PWM 输出 */
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-
+	
   /* 上电先关输出，避免一启动就误输出 */
   Heat_SetPwmDuty(0.0f);
 
@@ -489,6 +516,19 @@ int main(void)
          * 3. 温度采样完成后，执行一次控制逻辑
          * ===================================================== */
         Heating_ControlTask();
+		 /* =====================================================
+         * 4. 串口打印当前数据（USART2）
+         * 每秒打印一次
+         * ===================================================== */
+		Debug_PrintStatus();
+
+////		printf("%lu,%.2f,%.2f,%.2f,%.2f,%u\r\n",
+////			   HAL_GetTick() / 1000,
+////			   g_env_temp_real,
+////			   g_surf_temp_real,
+////			   g_pwm_duty_real,
+////			   g_heat_out_volt,
+////			   g_ctrl_mode_set);
     }
 
     /* =====================================================
