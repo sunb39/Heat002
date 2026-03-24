@@ -24,7 +24,7 @@ MDK-ARM/ProjectName.htm
 *.sbr
 *.plg
 *.opt
-
+*.uvguix.*
 # STM32CubeMX generated metadata sometimes unnecessary
 *.launch
 

@@ -26,10 +26,24 @@ uint16_t g_slave_addr         = 12;
 uint16_t g_baud_code          = BAUD_CODE_9600;
 uint16_t g_temp_alarm_en      = 1;
 
-uint16_t g_cmd_save_param      = 0;
-uint16_t g_cmd_clear_fault     = 0;
-uint16_t g_cmd_restore_default = 0;
-uint16_t g_cmd_soft_reset      = 0;
+
+uint16_t g_cmd_clear_fault = 0;
+uint16_t g_cmd_soft_reset  = 0;
+
+/* 自动保存相关内部状态 */
+static uint8_t  s_auto_save_pending = 0U;
+static uint32_t s_auto_save_tick = 0U;
+
+/* float 参数写入完整性跟踪
+   bit0 = 高16位已写
+   bit1 = 低16位已写 */
+static uint8_t  s_env_wr_mask    = 0U;   /* 地址 1~2 */
+static uint8_t  s_surf_wr_mask   = 0U;   /* 地址 3~4 */
+static uint8_t  s_manual_wr_mask = 0U;   /* 地址 5~6 */
+
+/* 用来判断 float 两个寄存器是否都写完整 */
+//static uint8_t  s_env_threshold_write_mask = 0U;   /* bit0=地址1, bit1=地址2 */
+//static uint8_t  s_surf_target_write_mask   = 0U;   /* bit0=地址3, bit1=地址4 */
 
 /* =========================================================
  * 实时变量（只读）
@@ -100,6 +114,20 @@ void Modbus_LoadDefaultParams(void)
     g_temp_alarm_en      = 1;
 }
 
+
+
+void Modbus_AutoSaveTask(void)
+{
+    if (s_auto_save_pending)
+    {
+        /* 延时 300ms，避免同一次连续写多个寄存器时反复擦写 Flash */
+        if ((HAL_GetTick() - s_auto_save_tick) >= 300U)
+        {
+            (void)ParamStore_Save();
+            s_auto_save_pending = 0U;
+        }
+    }
+}
 /* =========================================================
  * Modbus 寄存器初始化
  * 上电初始化时调用
@@ -125,12 +153,89 @@ void Modbus_RegsInit(void)
     Modbus_RegsSyncToBuffer();
 }
 
+static void Modbus_RequestAutoSave(void)
+{
+    s_auto_save_pending = 1U;
+    s_auto_save_tick = HAL_GetTick();
+}
+
+static void Modbus_CheckAutoSaveTrigger(USHORT start_addr, USHORT nregs)
+{
+    USHORT end_addr = start_addr + nregs - 1U;
+
+    /* ---------- 环境温度阈值：地址 1~2 ---------- */
+    if ((start_addr <= REG_ENV_TEMP_THRESHOLD_H) &&
+        (end_addr   >= REG_ENV_TEMP_THRESHOLD_H))
+    {
+        s_env_wr_mask |= 0x01U;
+    }
+
+    if ((start_addr <= REG_ENV_TEMP_THRESHOLD_L) &&
+        (end_addr   >= REG_ENV_TEMP_THRESHOLD_L))
+    {
+        s_env_wr_mask |= 0x02U;
+    }
+
+    if (s_env_wr_mask == 0x03U)
+    {
+        s_env_wr_mask = 0U;
+        Modbus_RequestAutoSave();
+    }
+
+    /* ---------- 表面温度目标值：地址 3~4 ---------- */
+    if ((start_addr <= REG_SURF_TEMP_TARGET_H) &&
+        (end_addr   >= REG_SURF_TEMP_TARGET_H))
+    {
+        s_surf_wr_mask |= 0x01U;
+    }
+
+    if ((start_addr <= REG_SURF_TEMP_TARGET_L) &&
+        (end_addr   >= REG_SURF_TEMP_TARGET_L))
+    {
+        s_surf_wr_mask |= 0x02U;
+    }
+
+    if (s_surf_wr_mask == 0x03U)
+    {
+        s_surf_wr_mask = 0U;
+        Modbus_RequestAutoSave();
+    }
+
+    /* ---------- 手动 PWM：地址 5~6 ---------- */
+    if ((start_addr <= REG_MANUAL_PWM_SET_H) &&
+        (end_addr   >= REG_MANUAL_PWM_SET_H))
+    {
+        s_manual_wr_mask |= 0x01U;
+    }
+
+    if ((start_addr <= REG_MANUAL_PWM_SET_L) &&
+        (end_addr   >= REG_MANUAL_PWM_SET_L))
+    {
+        s_manual_wr_mask |= 0x02U;
+    }
+
+    if (s_manual_wr_mask == 0x03U)
+    {
+        s_manual_wr_mask = 0U;
+        Modbus_RequestAutoSave();
+    }
+
+    /* ---------- 控制模式：地址 7 ---------- */
+    if ((start_addr <= REG_CTRL_MODE_SET) &&
+        (end_addr   >= REG_CTRL_MODE_SET))
+    {
+        Modbus_RequestAutoSave();
+    }
+}
+
 /* =========================================================
  * 业务变量 -> 寄存器镜像
  * 每次主站读保持寄存器前，都会把最新变量同步到寄存器
  * ========================================================= */
 void Modbus_RegsSyncToBuffer(void)
 {
+    uint16_t reg;
+
     /* ---------- R/W Float 区 ---------- */
     FloatToRegs(g_env_temp_threshold,
                 &usHoldingRegBuf[REG_ENV_TEMP_THRESHOLD_H],
@@ -145,15 +250,20 @@ void Modbus_RegsSyncToBuffer(void)
                 &usHoldingRegBuf[REG_MANUAL_PWM_SET_L]);
 
     /* ---------- R/W Word 区 ---------- */
-    usHoldingRegBuf[REG_CTRL_MODE_SET]       = g_ctrl_mode_set;
-    usHoldingRegBuf[REG_SLAVE_ADDR]          = g_slave_addr;
-    usHoldingRegBuf[REG_BAUD_CODE]           = g_baud_code;
-    usHoldingRegBuf[REG_TEMP_ALARM_EN]       = g_temp_alarm_en;
+    usHoldingRegBuf[REG_CTRL_MODE_SET] = g_ctrl_mode_set;
+    usHoldingRegBuf[REG_SLAVE_ADDR]    = g_slave_addr;
+    usHoldingRegBuf[REG_BAUD_CODE]     = g_baud_code;
+    usHoldingRegBuf[REG_TEMP_ALARM_EN] = g_temp_alarm_en;
 
-    usHoldingRegBuf[REG_CMD_SAVE_PARAM]      = g_cmd_save_param;
-    usHoldingRegBuf[REG_CMD_CLEAR_FAULT]     = g_cmd_clear_fault;
-    usHoldingRegBuf[REG_CMD_RESTORE_DEFAULT] = g_cmd_restore_default;
-    usHoldingRegBuf[REG_CMD_SOFT_RESET]      = g_cmd_soft_reset;
+    /* 11~12：命令区 */
+    usHoldingRegBuf[REG_CMD_CLEAR_FAULT] = g_cmd_clear_fault; /* 地址11：清故障 */
+    usHoldingRegBuf[REG_CMD_SOFT_RESET]  = g_cmd_soft_reset;  /* 地址12：软复位 */
+
+    /* 13~40：保留区，统一清零，避免读到旧值 */
+    for (reg = REG_RESERVED_RW_01; reg <= REG_RESERVED_RW_28; reg++)
+    {
+        usHoldingRegBuf[reg] = 0U;
+    }
 
     /* ---------- R Float 区 ---------- */
     FloatToRegs(g_env_temp_real,
@@ -180,15 +290,20 @@ void Modbus_RegsSyncToBuffer(void)
     usHoldingRegBuf[REG_SURF_PROBE_STATUS]  = g_surf_probe_status;
     usHoldingRegBuf[REG_ENV_PROBE_ERR_CNT]  = g_env_probe_err_cnt;
     usHoldingRegBuf[REG_SURF_PROBE_ERR_CNT] = g_surf_probe_err_cnt;
-    usHoldingRegBuf[REG_COMM_ERR_CNT]       = g_comm_err_cnt;
-    usHoldingRegBuf[REG_FW_MAJOR_VER]       = g_fw_major_ver;
-    usHoldingRegBuf[REG_FW_MINOR_VER]       = g_fw_minor_ver;
-}
+    usHoldingRegBuf[REG_FW_MAJOR_VER]       = g_fw_major_ver; /* 地址56 */
+    usHoldingRegBuf[REG_FW_MINOR_VER]       = g_fw_minor_ver; /* 地址57 */
 
+    /* 58~68：保留区，统一清零 */
+    for (reg = REG_RESERVED_R_01; reg <= REG_RESERVED_R_11; reg++)
+    {
+        usHoldingRegBuf[reg] = 0U;
+    }
+}
 /* =========================================================
  * 寄存器镜像 -> 参数变量
  * 每次主站写保持寄存器后，把寄存器数据回写到参数变量
  * ========================================================= */
+
 void Modbus_RegsSyncFromBuffer(void)
 {
     g_env_temp_threshold = RegsToFloat(usHoldingRegBuf[REG_ENV_TEMP_THRESHOLD_H],
@@ -205,12 +320,10 @@ void Modbus_RegsSyncFromBuffer(void)
     g_baud_code          = usHoldingRegBuf[REG_BAUD_CODE];
     g_temp_alarm_en      = usHoldingRegBuf[REG_TEMP_ALARM_EN];
 
-    g_cmd_save_param      = usHoldingRegBuf[REG_CMD_SAVE_PARAM];
-    g_cmd_clear_fault     = usHoldingRegBuf[REG_CMD_CLEAR_FAULT];
-    g_cmd_restore_default = usHoldingRegBuf[REG_CMD_RESTORE_DEFAULT];
-    g_cmd_soft_reset      = usHoldingRegBuf[REG_CMD_SOFT_RESET];
+    /* 命令区：只保留 11=清故障，12=软复位 */
+    g_cmd_clear_fault    = usHoldingRegBuf[REG_CMD_CLEAR_FAULT];
+    g_cmd_soft_reset     = usHoldingRegBuf[REG_CMD_SOFT_RESET];
 }
-
 /* =========================================================
  * 命令处理函数
  * 在主循环中周期调用
@@ -220,88 +333,42 @@ void Modbus_RegsSyncFromBuffer(void)
  * - 保存参数到 Flash
  * - 软复位（当前先占位）
  * ========================================================= */
+
 void Modbus_CmdProcess(void)
 {
     /* ------------------------------
      * 清故障命令
-     * 协议表地址 12
+     * 协议表地址 11
      * 写 1 后执行，执行后自动清零
      * ------------------------------ */
     if (g_cmd_clear_fault == 1U)
     {
-        /* 清故障字 */
         g_fault_word = 0;
-
-        /* 清探头状态 */
         g_env_probe_status  = 0;
         g_surf_probe_status = 0;
-
-        /* 清异常计数 */
         g_env_probe_err_cnt  = 0;
         g_surf_probe_err_cnt = 0;
 
-        /* 命令位自动清零 */
         g_cmd_clear_fault = 0;
-
-        /* 把更新后的变量同步回寄存器 */
         Modbus_RegsSyncToBuffer();
     }
 
     /* ------------------------------
-     * 恢复默认参数命令
-     * 协议表地址 13
-     * 写 1 后执行，执行后自动清零
+     * 软复位命令
+     * 协议表地址 12
+     * 写 1 后执行软件复位
      * ------------------------------ */
-    if (g_cmd_restore_default == 1U)
+    if (g_cmd_soft_reset == 1U)
     {
-        /* 重新加载默认参数 */
-        Modbus_LoadDefaultParams();
-
-        /* 命令位自动清零 */
-        g_cmd_restore_default = 0;
-
-        /* 把默认参数同步回寄存器 */
+        g_cmd_soft_reset = 0;
         Modbus_RegsSyncToBuffer();
+        HAL_Delay(20);
+        NVIC_SystemReset();
     }
-
-    /* ------------------------------
-     * 保存参数命令
-     * 协议表地址 11
-     * 写 1 后执行，执行后自动清零
-     * ------------------------------ */
-    if (g_cmd_save_param == 1U)
-    {
-        /* 保存当前参数到 Flash */
-        (void)ParamStore_Save();
-
-        /* 命令位自动清零 */
-        g_cmd_save_param = 0;
-
-        /* 把清零后的命令位同步回寄存器 */
-        Modbus_RegsSyncToBuffer();
-    }
-
-    /* ------------------------------
- * 软复位命令
- * 协议表地址 14
- * 写 1 后执行软件复位，执行前先清命令位
- * ------------------------------ */
-	if (g_cmd_soft_reset == 1U)
-	{
-    /* 1. 先把命令位清零，避免复位后主站仍读到 1 */
-    g_cmd_soft_reset = 0;
-
-    /* 2. 把清零后的结果同步回寄存器镜像 */
-    Modbus_RegsSyncToBuffer();
-
-    /* 3. 给一点短暂延时，让前面的寄存器更新和总线响应更稳定
-       注意：这里只是很短的延时，不影响整体逻辑 */
-    HAL_Delay(20);
-
-    /* 4. 执行 MCU 软件复位 */
-    NVIC_SystemReset();
-	}
 }
+
+
+
 
 /* =========================================================
  * FreeModbus 保持寄存器回调
@@ -341,19 +408,22 @@ eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress,
     /* ------------------------------
      * 写保持寄存器
      * ------------------------------ */
-    else if (eMode == MB_REG_WRITE)
-    {
-        /* 先把主站写来的数据写入寄存器镜像 */
-        for (i = 0; i < usNRegs; i++)
-        {
-            usHoldingRegBuf[reg]  = ((uint16_t)(*pucRegBuffer++) << 8);
-            usHoldingRegBuf[reg] |=  (uint16_t)(*pucRegBuffer++);
-            reg++;
-        }
 
-        /* 再把寄存器镜像同步回参数变量 */
-        Modbus_RegsSyncFromBuffer();
+	else if (eMode == MB_REG_WRITE)
+{
+    for (i = 0; i < usNRegs; i++)
+    {
+        usHoldingRegBuf[reg]  = ((uint16_t)(*pucRegBuffer++) << 8);
+        usHoldingRegBuf[reg] |=  (uint16_t)(*pucRegBuffer++);
+        reg++;
     }
+
+    /* 先把寄存器镜像同步回参数变量 */
+    Modbus_RegsSyncFromBuffer();
+
+    /* 再判断这次写入是否涉及自动保存参数（地址1~4） */
+    Modbus_CheckAutoSaveTrigger(usAddress, usNRegs);
+}
 
     return MB_ENOERR;
 }

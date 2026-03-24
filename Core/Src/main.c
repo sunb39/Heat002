@@ -79,7 +79,7 @@ static void Debug_PrintStatus(void)
     int len;
 
     len = snprintf(tx_buf, sizeof(tx_buf),
-                   "%u,%d,%d,%d,%d,%u\r\n",
+                   "%u,  %d,  %d,  %d,  %d,  %u\r\n",
                    (unsigned int)(HAL_GetTick() / 1000U),
                    (int)(g_env_temp_real * 100.0f),
                    (int)(g_surf_temp_real * 100.0f),
@@ -116,8 +116,8 @@ static float LimitFloat(float value, float min_val, float max_val)
  * - PB6（PWM输出脚）
  *
  * 当前 TIM4 配置：
- * - ARR（自动重装值）= 999
- * 所以比较值 CCR 范围大致也是 0~999
+ * - ARR（自动重装值）= 1999
+ * 所以比较值 CCR 范围大致也是 0~1999
  * ========================================================= */
 static void Heat_SetPwmDuty(float duty_percent)
 {
@@ -425,6 +425,11 @@ int main(void)
 
     /* 处理 Modbus 命令寄存器 */
     Modbus_CmdProcess();
+	
+
+
+	/* 处理自动保存任务 */
+	Modbus_AutoSaveTask();
 
     /* 每 1000ms 采集一次两路温度 */
     if (HAL_GetTick() - temp_tick >= 1000)
@@ -522,13 +527,7 @@ int main(void)
          * ===================================================== */
 		Debug_PrintStatus();
 
-////		printf("%lu,%.2f,%.2f,%.2f,%.2f,%u\r\n",
-////			   HAL_GetTick() / 1000,
-////			   g_env_temp_real,
-////			   g_surf_temp_real,
-////			   g_pwm_duty_real,
-////			   g_heat_out_volt,
-////			   g_ctrl_mode_set);
+
     }
 
     /* =====================================================
@@ -617,4 +616,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-//13213131

@@ -31,6 +31,7 @@ heat001\porttimer.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 heat001\porttimer.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 heat001\porttimer.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 heat001\porttimer.o: ../Core/Inc/tim.h
-heat001\porttimer.o: D:/Modbus/freemodbus-v1.6/modbus/include/mb.h
-heat001\porttimer.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbport.h
-heat001\porttimer.o: D:/Modbus/freemodbus-v1.6/modbus/include/mbproto.h
+heat001\porttimer.o: ..\freemodbus-v1.6\modbus\include\mb.h
+heat001\porttimer.o: ..\freemodbus-v1.6\demo\BARE\port\port.h
+heat001\porttimer.o: ..\freemodbus-v1.6\modbus\include\mbport.h
+heat001\porttimer.o: ..\freemodbus-v1.6\modbus\include\mbproto.h

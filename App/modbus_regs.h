@@ -32,18 +32,17 @@
 /* =========================================================
  * R/W Word 区
  * ========================================================= */
+
 #define REG_CTRL_MODE_SET               7   /* 控制模式 */
 #define REG_SLAVE_ADDR                  8   /* 从机地址 */
 #define REG_BAUD_CODE                   9   /* 波特率代码 */
 #define REG_TEMP_ALARM_EN              10   /* 温度异常上报使能 */
-#define REG_CMD_SAVE_PARAM             11   /* 保存参数命令 */
-#define REG_CMD_CLEAR_FAULT            12   /* 清故障命令 */
-#define REG_CMD_RESTORE_DEFAULT        13   /* 恢复默认参数命令 */
-#define REG_CMD_SOFT_RESET             14   /* 软复位命令 */
+#define REG_CMD_CLEAR_FAULT            11   /* 清故障命令 */
+#define REG_CMD_SOFT_RESET             12   /* 软复位命令 */
 
-/* 15~40 保留 */
-#define REG_RESERVED_RW_01             15
-#define REG_RESERVED_RW_26             40
+/* 13~40 保留 */
+#define REG_RESERVED_RW_01             13
+#define REG_RESERVED_RW_28             40
 
 /* =========================================================
  * R Float 区
@@ -70,13 +69,12 @@
 #define REG_SURF_PROBE_STATUS          53   /* 表面探头状态 */
 #define REG_ENV_PROBE_ERR_CNT          54   /* 环境探头异常计数 */
 #define REG_SURF_PROBE_ERR_CNT         55   /* 表面探头异常计数 */
-#define REG_COMM_ERR_CNT               56   /* 通信异常计数 */
-#define REG_FW_MAJOR_VER               57   /* 固件主版本号 */
-#define REG_FW_MINOR_VER               58   /* 固件次版本号 */
+#define REG_FW_MAJOR_VER               56   /* 固件主版本号 */
+#define REG_FW_MINOR_VER               57   /* 固件次版本号 */
 
-/* 59~68 保留 */
-#define REG_RESERVED_R_01              59
-#define REG_RESERVED_R_10              68
+/* 58~68 保留 */
+#define REG_RESERVED_R_01              58
+#define REG_RESERVED_R_11              68
 
 /* =========================================================
  * 控制模式定义
@@ -114,9 +112,8 @@ extern uint16_t g_baud_code;            /* 波特率代码 */
 extern uint16_t g_temp_alarm_en;        /* 温度异常上报使能 */
 
 /* 命令寄存器 */
-extern uint16_t g_cmd_save_param;       /* 保存参数命令 */
+
 extern uint16_t g_cmd_clear_fault;      /* 清故障命令 */
-extern uint16_t g_cmd_restore_default;  /* 恢复默认参数命令 */
 extern uint16_t g_cmd_soft_reset;       /* 软复位命令 */
 
 /* =========================================================
@@ -135,7 +132,6 @@ extern uint16_t g_env_probe_status;     /* 环境探头状态 */
 extern uint16_t g_surf_probe_status;    /* 表面探头状态 */
 extern uint16_t g_env_probe_err_cnt;    /* 环境探头异常计数 */
 extern uint16_t g_surf_probe_err_cnt;   /* 表面探头异常计数 */
-extern uint16_t g_comm_err_cnt;         /* 通信异常计数 */
 extern uint16_t g_fw_major_ver;         /* 固件主版本号 */
 extern uint16_t g_fw_minor_ver;         /* 固件次版本号 */
 
@@ -159,6 +155,8 @@ void Modbus_RegsSyncFromBuffer(void);
 /* 命令处理函数
  * 在主循环中调用，负责处理保存参数、清故障、恢复默认等命令 */
 void Modbus_CmdProcess(void);
+/*自动保存任务*/
+void Modbus_AutoSaveTask(void);
 
 /* FreeModbus 保持寄存器回调函数 */
 eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress,
