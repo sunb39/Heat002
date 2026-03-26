@@ -101,7 +101,9 @@
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <bEvRecOn>1</bEvRecOn>
-        <nTsel>5</nTsel>
+        <bSchkAxf>0</bSchkAxf>
+        <bTchkAxf>0</bTchkAxf>
+        <nTsel>6</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -260,6 +262,7 @@
       <pMultCmdsp></pMultCmdsp>
       <DebugDescription>
         <Enable>1</Enable>
+        <EnableFlashSeq>0</EnableFlashSeq>
         <EnableLog>0</EnableLog>
         <Protocol>2</Protocol>
         <DbgClock>10000000</DbgClock>
@@ -576,7 +579,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\modbus\mb.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\modbus\mb.c</PathWithFileName>
       <FilenameWithoutPath>mb.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -588,7 +591,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\modbus\functions\mbfuncholding.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\modbus\functions\mbfuncholding.c</PathWithFileName>
       <FilenameWithoutPath>mbfuncholding.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -600,7 +603,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\modbus\functions\mbutils.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\modbus\functions\mbutils.c</PathWithFileName>
       <FilenameWithoutPath>mbutils.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -620,7 +623,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\modbus\rtu\mbcrc.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\modbus\rtu\mbcrc.c</PathWithFileName>
       <FilenameWithoutPath>mbcrc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -632,7 +635,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\modbus\rtu\mbrtu.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\modbus\rtu\mbrtu.c</PathWithFileName>
       <FilenameWithoutPath>mbrtu.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -652,7 +655,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\demo\BARE\port\portevent.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\demo\BARE\port\portevent.c</PathWithFileName>
       <FilenameWithoutPath>portevent.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -664,7 +667,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\demo\BARE\port\portserial.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\demo\BARE\port\portserial.c</PathWithFileName>
       <FilenameWithoutPath>portserial.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -676,7 +679,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>D:\Modbus\freemodbus-v1.6\demo\BARE\port\porttimer.c</PathWithFileName>
+      <PathWithFileName>..\freemodbus-v1.6\demo\BARE\port\porttimer.c</PathWithFileName>
       <FilenameWithoutPath>porttimer.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

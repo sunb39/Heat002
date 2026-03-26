@@ -10,13 +10,13 @@
       <TargetName>Heat001</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F103C8</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.2.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.1.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000-0x20004FFF) IROM(0x8000000-0x800FFFF) CLOCK(8000000) CPUTYPE("Cortex-M3") TZ</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -184,6 +184,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -311,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -324,6 +326,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>5</v6Lang>
             <v6LangP>3</v6LangP>
@@ -349,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -513,17 +516,17 @@
             <File>
               <FileName>mb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\modbus\mb.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\modbus\mb.c</FilePath>
             </File>
             <File>
               <FileName>mbfuncholding.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\modbus\functions\mbfuncholding.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\modbus\functions\mbfuncholding.c</FilePath>
             </File>
             <File>
               <FileName>mbutils.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\modbus\functions\mbutils.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\modbus\functions\mbutils.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -533,12 +536,12 @@
             <File>
               <FileName>mbcrc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\modbus\rtu\mbcrc.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\modbus\rtu\mbcrc.c</FilePath>
             </File>
             <File>
               <FileName>mbrtu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\modbus\rtu\mbrtu.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\modbus\rtu\mbrtu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -548,17 +551,17 @@
             <File>
               <FileName>portevent.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\demo\BARE\port\portevent.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\demo\BARE\port\portevent.c</FilePath>
             </File>
             <File>
               <FileName>portserial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\demo\BARE\port\portserial.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\demo\BARE\port\portserial.c</FilePath>
             </File>
             <File>
               <FileName>porttimer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>D:\Modbus\freemodbus-v1.6\demo\BARE\port\porttimer.c</FilePath>
+              <FilePath>..\freemodbus-v1.6\demo\BARE\port\porttimer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -616,5 +619,14 @@
     </components>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Heat001</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

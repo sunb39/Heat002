@@ -28,7 +28,7 @@ uint16_t g_temp_alarm_en      = 1;
 
 
 uint16_t g_cmd_clear_fault = 0;
-uint16_t g_cmd_soft_reset  = 0;
+//uint16_t g_cmd_soft_reset  = 0;
 
 /* 自动保存相关内部状态 */
 static uint8_t  s_auto_save_pending = 0U;
@@ -61,7 +61,7 @@ uint16_t g_env_probe_status   = 0;
 uint16_t g_surf_probe_status  = 0;
 uint16_t g_env_probe_err_cnt  = 0;
 uint16_t g_surf_probe_err_cnt = 0;
-uint16_t g_comm_err_cnt       = 0;
+//uint16_t g_comm_err_cnt       = 0;
 uint16_t g_fw_major_ver       = 1;
 uint16_t g_fw_minor_ver       = 0;
 
@@ -250,17 +250,11 @@ void Modbus_RegsSyncToBuffer(void)
                 &usHoldingRegBuf[REG_MANUAL_PWM_SET_L]);
 
     /* ---------- R/W Word 区 ---------- */
-    usHoldingRegBuf[REG_CTRL_MODE_SET] = g_ctrl_mode_set;
-    usHoldingRegBuf[REG_SLAVE_ADDR]    = g_slave_addr;
-    usHoldingRegBuf[REG_BAUD_CODE]     = g_baud_code;
-    usHoldingRegBuf[REG_TEMP_ALARM_EN] = g_temp_alarm_en;
+    usHoldingRegBuf[REG_CTRL_MODE_SET]    = g_ctrl_mode_set;
+    usHoldingRegBuf[REG_CMD_CLEAR_FAULT]  = g_cmd_clear_fault;
 
-    /* 11~12：命令区 */
-    usHoldingRegBuf[REG_CMD_CLEAR_FAULT] = g_cmd_clear_fault; /* 地址11：清故障 */
-    usHoldingRegBuf[REG_CMD_SOFT_RESET]  = g_cmd_soft_reset;  /* 地址12：软复位 */
-
-    /* 13~40：保留区，统一清零，避免读到旧值 */
-    for (reg = REG_RESERVED_RW_01; reg <= REG_RESERVED_RW_28; reg++)
+    /* 9~23 保留 */
+    for (reg = REG_RESERVED_RW_01; reg <= REG_RESERVED_RW_15; reg++)
     {
         usHoldingRegBuf[reg] = 0U;
     }
@@ -290,11 +284,14 @@ void Modbus_RegsSyncToBuffer(void)
     usHoldingRegBuf[REG_SURF_PROBE_STATUS]  = g_surf_probe_status;
     usHoldingRegBuf[REG_ENV_PROBE_ERR_CNT]  = g_env_probe_err_cnt;
     usHoldingRegBuf[REG_SURF_PROBE_ERR_CNT] = g_surf_probe_err_cnt;
-    usHoldingRegBuf[REG_FW_MAJOR_VER]       = g_fw_major_ver; /* 地址56 */
-    usHoldingRegBuf[REG_FW_MINOR_VER]       = g_fw_minor_ver; /* 地址57 */
+    usHoldingRegBuf[REG_SLAVE_ADDR_R]       = g_slave_addr;
+    usHoldingRegBuf[REG_BAUD_CODE_R]        = g_baud_code;
+    usHoldingRegBuf[REG_TEMP_ALARM_EN_R]    = 1U;
+    usHoldingRegBuf[REG_FW_MAJOR_VER]       = g_fw_major_ver;
+    usHoldingRegBuf[REG_FW_MINOR_VER]       = g_fw_minor_ver;
 
-    /* 58~68：保留区，统一清零 */
-    for (reg = REG_RESERVED_R_01; reg <= REG_RESERVED_R_11; reg++)
+    /* 44~68 保留 */
+    for (reg = REG_RESERVED_R_01; reg <= REG_RESERVED_R_25; reg++)
     {
         usHoldingRegBuf[reg] = 0U;
     }
@@ -316,13 +313,12 @@ void Modbus_RegsSyncFromBuffer(void)
                                        usHoldingRegBuf[REG_MANUAL_PWM_SET_L]);
 
     g_ctrl_mode_set      = usHoldingRegBuf[REG_CTRL_MODE_SET];
-    g_slave_addr         = usHoldingRegBuf[REG_SLAVE_ADDR];
-    g_baud_code          = usHoldingRegBuf[REG_BAUD_CODE];
-    g_temp_alarm_en      = usHoldingRegBuf[REG_TEMP_ALARM_EN];
-
-    /* 命令区：只保留 11=清故障，12=软复位 */
     g_cmd_clear_fault    = usHoldingRegBuf[REG_CMD_CLEAR_FAULT];
-    g_cmd_soft_reset     = usHoldingRegBuf[REG_CMD_SOFT_RESET];
+
+    /* 固定只读参数，强制保持 */
+    g_slave_addr         = 12;
+    g_baud_code          = BAUD_CODE_9600;
+    g_temp_alarm_en      = 1U;
 }
 /* =========================================================
  * 命令处理函数
@@ -336,11 +332,6 @@ void Modbus_RegsSyncFromBuffer(void)
 
 void Modbus_CmdProcess(void)
 {
-    /* ------------------------------
-     * 清故障命令
-     * 协议表地址 11
-     * 写 1 后执行，执行后自动清零
-     * ------------------------------ */
     if (g_cmd_clear_fault == 1U)
     {
         g_fault_word = 0;
@@ -351,19 +342,6 @@ void Modbus_CmdProcess(void)
 
         g_cmd_clear_fault = 0;
         Modbus_RegsSyncToBuffer();
-    }
-
-    /* ------------------------------
-     * 软复位命令
-     * 协议表地址 12
-     * 写 1 后执行软件复位
-     * ------------------------------ */
-    if (g_cmd_soft_reset == 1U)
-    {
-        g_cmd_soft_reset = 0;
-        Modbus_RegsSyncToBuffer();
-        HAL_Delay(20);
-        NVIC_SystemReset();
     }
 }
 
@@ -379,6 +357,8 @@ eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress,
 {
     USHORT i;
     USHORT reg;
+    USHORT write_start;
+    USHORT write_end;
 
     /* 地址越界检查 */
     if ((usAddress < HREG_START_ADDR) ||
@@ -408,22 +388,30 @@ eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress,
     /* ------------------------------
      * 写保持寄存器
      * ------------------------------ */
-
-	else if (eMode == MB_REG_WRITE)
-{
-    for (i = 0; i < usNRegs; i++)
+    else if (eMode == MB_REG_WRITE)
     {
-        usHoldingRegBuf[reg]  = ((uint16_t)(*pucRegBuffer++) << 8);
-        usHoldingRegBuf[reg] |=  (uint16_t)(*pucRegBuffer++);
-        reg++;
+        write_start = usAddress;
+        write_end   = usAddress + usNRegs - 1;
+
+        /* 只允许写 1~23，24~68 为只读区 */
+        if ((write_start > REG_RESERVED_RW_15) || (write_end > REG_RESERVED_RW_15))
+        {
+            return MB_ENOREG;
+        }
+
+        for (i = 0; i < usNRegs; i++)
+        {
+            usHoldingRegBuf[reg]  = ((uint16_t)(*pucRegBuffer++) << 8);
+            usHoldingRegBuf[reg] |=  (uint16_t)(*pucRegBuffer++);
+            reg++;
+        }
+
+        /* 先把寄存器镜像同步回参数变量 */
+        Modbus_RegsSyncFromBuffer();
+
+        /* 自动保存触发判断 */
+        Modbus_CheckAutoSaveTrigger(usAddress, usNRegs);
     }
-
-    /* 先把寄存器镜像同步回参数变量 */
-    Modbus_RegsSyncFromBuffer();
-
-    /* 再判断这次写入是否涉及自动保存参数（地址1~4） */
-    Modbus_CheckAutoSaveTrigger(usAddress, usNRegs);
-}
 
     return MB_ENOERR;
 }

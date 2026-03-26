@@ -1,8 +1,8 @@
-heat001\portserial.o: D:\Modbus\freemodbus-v1.6\demo\BARE\port\portserial.c
-heat001\portserial.o: D:\Modbus\freemodbus-v1.6\demo\BARE\port\port.h
-heat001\portserial.o: D:\keil55\ARM\ARMCC\Bin\..\include\assert.h
-heat001\portserial.o: D:\keil55\ARM\ARMCC\Bin\..\include\inttypes.h
-heat001\portserial.o: D:\keil55\ARM\ARMCC\Bin\..\include\stdint.h
+heat001\portserial.o: ..\freemodbus-v1.6\demo\BARE\port\portserial.c
+heat001\portserial.o: ..\freemodbus-v1.6\demo\BARE\port\port.h
+heat001\portserial.o: E:\Software\keil\ARM\ARMCC\Bin\..\include\assert.h
+heat001\portserial.o: E:\Software\keil\ARM\ARMCC\Bin\..\include\inttypes.h
+heat001\portserial.o: E:\Software\keil\ARM\ARMCC\Bin\..\include\stdint.h
 heat001\portserial.o: ../Core/Inc/main.h
 heat001\portserial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 heat001\portserial.o: ../Core/Inc/stm32f1xx_hal_conf.h
@@ -16,7 +16,7 @@ heat001\portserial.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 heat001\portserial.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 heat001\portserial.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 heat001\portserial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
-heat001\portserial.o: D:\keil55\ARM\ARMCC\Bin\..\include\stddef.h
+heat001\portserial.o: E:\Software\keil\ARM\ARMCC\Bin\..\include\stddef.h
 heat001\portserial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 heat001\portserial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 heat001\portserial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -33,6 +33,5 @@ heat001\portserial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 heat001\portserial.o: ../Core/Inc/usart.h
 heat001\portserial.o: ../Core/Inc/gpio.h
 heat001\portserial.o: ..\freemodbus-v1.6\modbus\include\mb.h
-heat001\portserial.o: ..\freemodbus-v1.6\demo\BARE\port\port.h
 heat001\portserial.o: ..\freemodbus-v1.6\modbus\include\mbport.h
 heat001\portserial.o: ..\freemodbus-v1.6\modbus\include\mbproto.h
