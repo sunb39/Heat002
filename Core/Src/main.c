@@ -199,6 +199,7 @@ static void Heating_ControlTask(void)
             pwm_cmd = 100.0f;
             output_enable = 1;
             /* 这里只是强制全功率模式，不是自动模式的全功率阶段 */
+						full_power_stage = 1;
             break;
         }
 
@@ -484,7 +485,7 @@ int main(void)
         g_surf_debug_enter++;
 
         surf_ok = M1820_ReadTemperature(&g_m1820_surf, &surf_temp_value);
-
+ 
         if (!surf_ok)
         {
             HAL_Delay(10);

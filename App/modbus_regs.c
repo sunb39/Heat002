@@ -65,6 +65,8 @@ uint16_t g_surf_probe_err_cnt = 0;
 uint16_t g_fw_major_ver       = 1;
 uint16_t g_fw_minor_ver       = 0;
 
+
+
 /* =========================================================
  * 内部工具函数：float <-> 2 个寄存器
  * 采用高字在前、低字在后
@@ -152,6 +154,8 @@ void Modbus_RegsInit(void)
     /* 最后把当前变量同步到寄存器缓冲区 */
     Modbus_RegsSyncToBuffer();
 }
+
+
 
 static void Modbus_RequestAutoSave(void)
 {
