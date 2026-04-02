@@ -12,9 +12,9 @@
  * 你的协议表地址范围是 1 ~ 68
  * 因此保持寄存器缓冲区也按 1~68 来映射
  * ========================================================= */
-#define HREG_START_ADDR                 1
-#define HREG_END_ADDR                   68
-#define HREG_NUMBER                     68
+#define HREG_START_ADDR                 2
+#define HREG_END_ADDR                   69
+#define HREG_NUMBER                     69
 
 
 
@@ -22,61 +22,61 @@
  * R/W Float 区（每个 float 占 2 个寄存器）
  * 采用高字在前、低字在后
  * ========================================================= */
-#define REG_ENV_TEMP_THRESHOLD_H        1   /* 环境温度阈值 高16位 */
-#define REG_ENV_TEMP_THRESHOLD_L        2   /* 环境温度阈值 低16位 */
+#define REG_ENV_TEMP_THRESHOLD_H        2   /* 环境温度阈值 高16位 */
+#define REG_ENV_TEMP_THRESHOLD_L        3   /* 环境温度阈值 低16位 */
 
-#define REG_SURF_TEMP_TARGET_H          3   /* 表面温度目标值 高16位 */
-#define REG_SURF_TEMP_TARGET_L          4   /* 表面温度目标值 低16位 */
+#define REG_SURF_TEMP_TARGET_H          4   /* 表面温度目标值 高16位 */
+#define REG_SURF_TEMP_TARGET_L          5   /* 表面温度目标值 低16位 */
 
-#define REG_MANUAL_PWM_SET_H            5   /* 手动PWM设定值 高16位 */
-#define REG_MANUAL_PWM_SET_L            6   /* 手动PWM设定值 低16位 */
+#define REG_MANUAL_PWM_SET_H            6   /* 手动PWM设定值 高16位 */
+#define REG_MANUAL_PWM_SET_L            7   /* 手动PWM设定值 低16位 */
 
 /* =========================================================
  * R/W Word 区
  * ========================================================= */
 
-#define REG_CTRL_MODE_SET               7   /* 控制模式 */
-#define REG_CMD_CLEAR_FAULT             8   /* 清故障命令 */
+#define REG_CTRL_MODE_SET               8   /* 控制模式 */
+#define REG_CMD_CLEAR_FAULT             9   /* 清故障命令 */
 
 
 /* 9~23 保留 */
-#define REG_RESERVED_RW_01             9
-#define REG_RESERVED_RW_15             23
+#define REG_RESERVED_RW_01             10
+#define REG_RESERVED_RW_15             24
 
 /* =========================================================
  * R Float 区
  * ========================================================= */
-#define REG_ENV_TEMP_REAL_H            24   /* 环境温度实时值 高16位 */
-#define REG_ENV_TEMP_REAL_L            25   /* 环境温度实时值 低16位 */
+#define REG_ENV_TEMP_REAL_H            25   /* 环境温度实时值 高16位 */
+#define REG_ENV_TEMP_REAL_L            26   /* 环境温度实时值 低16位 */
 
-#define REG_SURF_TEMP_REAL_H           26   /* 表面温度实时值 高16位 */
-#define REG_SURF_TEMP_REAL_L           27   /* 表面温度实时值 低16位 */
+#define REG_SURF_TEMP_REAL_H           27   /* 表面温度实时值 高16位 */
+#define REG_SURF_TEMP_REAL_L           28   /* 表面温度实时值 低16位 */
 
-#define REG_HEAT_OUT_VOLT_H            28   /* 加热板输出电压 高16位 */
-#define REG_HEAT_OUT_VOLT_L            29   /* 加热板输出电压 低16位 */
+#define REG_HEAT_OUT_VOLT_H            29   /* 加热板输出电压 高16位 */
+#define REG_HEAT_OUT_VOLT_L            30   /* 加热板输出电压 低16位 */
 
-#define REG_PWM_DUTY_REAL_H            30   /* 当前PWM占空比 高16位 */
-#define REG_PWM_DUTY_REAL_L            31   /* 当前PWM占空比 低16位 */
+#define REG_PWM_DUTY_REAL_H            31   /* 当前PWM占空比 高16位 */
+#define REG_PWM_DUTY_REAL_L            32   /* 当前PWM占空比 低16位 */
 
 /* =========================================================
  * R Word 区
  * ========================================================= */
-#define REG_STATUS_WORD                32   /* 设备状态字 */
-#define REG_FAULT_WORD                 33   /* 故障状态字 */
-#define REG_HEAT_OUTPUT_STATUS         34   /* 加热输出状态 */
-#define REG_ENV_PROBE_STATUS           35   /* 环境探头状态 */
-#define REG_SURF_PROBE_STATUS          36   /* 表面探头状态 */
-#define REG_ENV_PROBE_ERR_CNT          37   /* 环境探头异常计数 */
-#define REG_SURF_PROBE_ERR_CNT         38   /* 表面探头异常计数 */
-#define REG_SLAVE_ADDR_R							 39		/* 从机地址默认12 */
-#define REG_BAUD_CODE_R                40		/* 波特率默认0 = 9600 */
-#define REG_TEMP_ALARM_EN_R            41		/* 温度异常上报使能开启1 */
-#define REG_FW_MAJOR_VER               42   /* 固件主版本号 */
-#define REG_FW_MINOR_VER               43   /* 固件次版本号 */
+#define REG_STATUS_WORD                33   /* 设备状态字 */
+#define REG_FAULT_WORD                 34   /* 设备故障字 */
+#define REG_HEAT_OUTPUT_STATUS         35   /* 加热输出状态 */
+#define REG_ENV_PROBE_STATUS           36   /* 环境探头状态 */
+#define REG_SURF_PROBE_STATUS          37   /* 表面探头状态 */
+#define REG_ENV_PROBE_ERR_CNT          38   /* 环境探头异常计数 */
+#define REG_SURF_PROBE_ERR_CNT         39   /* 表面探头异常计数 */
+#define REG_SLAVE_ADDR_R							 40		/* 从机地址默认12 */
+#define REG_BAUD_CODE_R                41		/* 波特率默认0 = 9600 */
+#define REG_TEMP_ALARM_EN_R            42		/* 温度异常上报使能开启1 */
+#define REG_FW_MAJOR_VER               43   /* 固件主版本号 */
+#define REG_FW_MINOR_VER               44   /* 固件次版本号 */
 
 /* 44~68 保留 */
-#define REG_RESERVED_R_01              44
-#define REG_RESERVED_R_25              68
+#define REG_RESERVED_R_01              45
+#define REG_RESERVED_R_25              69
 
 /* =========================================================
  * 控制模式定义
@@ -96,7 +96,7 @@
 
 /* =========================================================
  * 全局寄存器镜像缓冲区
- * 下标 0 不使用，直接使用 1~68 对应协议表地址
+ * 下标 0 不使用，直接使用 1~69 对应协议表地址
  * ========================================================= */
 extern uint16_t usHoldingRegBuf[HREG_NUMBER + 1];
 
@@ -128,7 +128,7 @@ extern float    g_heat_out_volt;        /* 加热板输出电压 */
 extern float    g_pwm_duty_real;        /* 当前PWM占空比 */
 
 extern uint16_t g_status_word;          /* 设备状态字 */
-extern uint16_t g_fault_word;           /* 故障状态字 */
+extern uint16_t g_fault_word;           /* 设备故障字 */
 extern uint16_t g_heat_output_status;   /* 加热输出状态 */
 extern uint16_t g_env_probe_status;     /* 环境探头状态 */
 extern uint16_t g_surf_probe_status;    /* 表面探头状态 */

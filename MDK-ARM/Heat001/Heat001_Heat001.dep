@@ -1,7 +1,7 @@
 Dependencies for Project 'Heat001', Target 'Heat001': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f103xb.s)(0x69C4883A)(--cpu Cortex-M3 -g --apcs=interwork -I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include--pd "__UVISION_VERSION SETA 535" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o heat001\startup_stm32f103xb.o --depend heat001\startup_stm32f103xb.d)
-F (../Core/Src/main.c)(0x69CA2B69)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\main.o --omf_browse heat001\main.crf --depend heat001\main.d)
+F (../Core/Src/main.c)(0x69CC72E3)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\main.o --omf_browse heat001\main.crf --depend heat001\main.d)
 I (../Core/Inc/main.h)(0x69C48839)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x69C4883A)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x69C48839)
@@ -39,7 +39,7 @@ I (E:\Software\keil\ARM\ARMCC\include\inttypes.h)(0x6025237E)
 I (..\freemodbus-v1.6\modbus\include\mbport.h)(0x69C4883C)
 I (..\freemodbus-v1.6\modbus\include\mbproto.h)(0x69C4883C)
 I (../App/m1820.h)(0x69C48839)
-I (../App/modbus_regs.h)(0x69CA2B69)
+I (../App/modbus_regs.h)(0x69CDD623)
 I (E:\Software\keil\ARM\ARMCC\include\stdio.h)(0x60252374)
 F (../Core/Src/gpio.c)(0x69C48839)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\gpio.o --omf_browse heat001\gpio.crf --depend heat001\gpio.d)
 I (../Core/Inc/gpio.h)(0x69C48839)
@@ -729,7 +729,7 @@ I (../Core/Inc/tim.h)(0x69C48839)
 I (..\freemodbus-v1.6\modbus\include\mb.h)(0x69C4883C)
 I (..\freemodbus-v1.6\modbus\include\mbport.h)(0x69C4883C)
 I (..\freemodbus-v1.6\modbus\include\mbproto.h)(0x69C4883C)
-F (..\App\modbus_regs.c)(0x69CA2B69)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\modbus_regs.o --omf_browse heat001\modbus_regs.crf --depend heat001\modbus_regs.d)
+F (..\App\modbus_regs.c)(0x69CB630B)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\modbus_regs.o --omf_browse heat001\modbus_regs.crf --depend heat001\modbus_regs.d)
 I (../Core/Inc/main.h)(0x69C48839)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x69C4883A)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x69C48839)
@@ -758,7 +758,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x69C4883A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x69C4883A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x69C4883A)
 I (..\App\m1820.h)(0x69C48839)
-I (..\App\modbus_regs.h)(0x69CA2B69)
+I (..\App\modbus_regs.h)(0x69CDD623)
 I (..\freemodbus-v1.6\modbus\include\mb.h)(0x69C4883C)
 I (..\freemodbus-v1.6\demo\BARE\port\port.h)(0x69C4883A)
 I (E:\Software\keil\ARM\ARMCC\include\assert.h)(0x60252378)
@@ -767,8 +767,8 @@ I (..\freemodbus-v1.6\modbus\include\mbport.h)(0x69C4883C)
 I (..\freemodbus-v1.6\modbus\include\mbproto.h)(0x69C4883C)
 I (..\App\param_store.h)(0x69C48839)
 I (E:\Software\keil\ARM\ARMCC\include\string.h)(0x6025237E)
-F (..\App\modbus_regs.h)(0x69CA2B69)()
-F (..\App\param_store.c)(0x69C4E0A3)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\param_store.o --omf_browse heat001\param_store.crf --depend heat001\param_store.d)
+F (..\App\modbus_regs.h)(0x69CDD623)()
+F (..\App\param_store.c)(0x69CB630B)(--c99 -c --cpu Cortex-M3 -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../App -I ..\freemodbus-v1.6\modbus\functions -I ..\freemodbus-v1.6\modbus\include -I ..\freemodbus-v1.6\modbus\rtu -I ..\freemodbus-v1.6\demo\BARE\port-I.\RTE\_Heat001-IE:\Software\keil\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\Software\keil\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o heat001\param_store.o --omf_browse heat001\param_store.crf --depend heat001\param_store.d)
 I (..\App\param_store.h)(0x69C48839)
 I (E:\Software\keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x69C4883A)
@@ -796,7 +796,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x69C4883A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x69C4883A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x69C4883A)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x69C4883A)
-I (..\App\modbus_regs.h)(0x69CA2B69)
+I (..\App\modbus_regs.h)(0x69CDD623)
 I (..\freemodbus-v1.6\modbus\include\mb.h)(0x69C4883C)
 I (..\freemodbus-v1.6\demo\BARE\port\port.h)(0x69C4883A)
 I (E:\Software\keil\ARM\ARMCC\include\assert.h)(0x60252378)

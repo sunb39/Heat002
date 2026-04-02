@@ -146,7 +146,7 @@ void Modbus_RegsInit(void)
     /* 先加载默认参数 */
     Modbus_LoadDefaultParams();
 
-    /* 再尝试从 Flash 读取保存过的参数
+    /* 再尝试从 Flash 读取-保存过的参数
        如果 Flash 中有有效数据，会覆盖默认参数；
        如果没有有效数据，则继续使用默认参数 */
     ParamStore_Load();

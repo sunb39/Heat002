@@ -129,7 +129,8 @@ uint8_t ParamStore_Load(void)
     g_surf_temp_target   = WordToFloat(img->surf_temp_target);
     g_manual_pwm_set     = WordToFloat(img->manual_pwm_set);
 
-    g_ctrl_mode_set      = (uint16_t)img->ctrl_mode_set;
+//    g_ctrl_mode_set      = (uint16_t)img->ctrl_mode_set;
+		g_ctrl_mode_set      = CTRL_MODE_AUTO;
     g_temp_alarm_en      = 1U;
 
     return 1;
@@ -155,7 +156,8 @@ uint8_t ParamStore_Save(void)
     img.surf_temp_target   = FloatToWord(g_surf_temp_target);
     img.manual_pwm_set     = FloatToWord(g_manual_pwm_set);
 
-    img.ctrl_mode_set      = (uint32_t)g_ctrl_mode_set;
+//    img.ctrl_mode_set      = (uint32_t)g_ctrl_mode_set;
+		img.ctrl_mode_set      = (uint32_t)CTRL_MODE_AUTO;
     img.temp_alarm_en      = 1U;
 
     img.checksum           = ParamStore_CalcChecksum(&img);

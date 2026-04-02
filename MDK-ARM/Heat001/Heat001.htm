@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Heat001\Heat001.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Heat001\Heat001.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Mar 30 15:51:08 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Apr 02 10:36:24 2026
 <BR><P>
 <H3>Maximum Stack Usage =        312 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1060,7 +1060,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xb.o(RESET)
 </UL>
-<P><STRONG><a name="[cf]"></a>ParamStore_Load</STRONG> (Thumb, 96 bytes, Stack size 8 bytes, param_store.o(i.ParamStore_Load))
+<P><STRONG><a name="[cf]"></a>ParamStore_Load</STRONG> (Thumb, 94 bytes, Stack size 8 bytes, param_store.o(i.ParamStore_Load))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ParamStore_Load
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WordToFloat
@@ -1069,7 +1069,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Modbus_RegsInit
 </UL>
 
-<P><STRONG><a name="[c7]"></a>ParamStore_Save</STRONG> (Thumb, 136 bytes, Stack size 64 bytes, param_store.o(i.ParamStore_Save))
+<P><STRONG><a name="[c7]"></a>ParamStore_Save</STRONG> (Thumb, 132 bytes, Stack size 64 bytes, param_store.o(i.ParamStore_Save))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = ParamStore_Save &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_Erase
@@ -1707,7 +1707,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Modbus_RegsSyncToBuffer
 </UL>
 
-<P><STRONG><a name="[c8]"></a>Modbus_CheckAutoSaveTrigger</STRONG> (Thumb, 166 bytes, Stack size 24 bytes, modbus_regs.o(i.Modbus_CheckAutoSaveTrigger))
+<P><STRONG><a name="[c8]"></a>Modbus_CheckAutoSaveTrigger</STRONG> (Thumb, 168 bytes, Stack size 24 bytes, modbus_regs.o(i.Modbus_CheckAutoSaveTrigger))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = Modbus_CheckAutoSaveTrigger &rArr; Modbus_RequestAutoSave
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Modbus_RequestAutoSave

@@ -242,7 +242,7 @@ static void Heating_ControlTask(void)
                     else if (error > 0.0f)
                     {
                         /* 接近目标值：简化比例调功 */
-                        pwm_cmd =  10.0f + error * 20.0f;   /* 例如差 3℃ -> 30% */
+                        pwm_cmd =  30.0f + error * 20.0f;   /* 例如差 3℃ -> 30% */
                         pwm_cmd = LimitFloat(pwm_cmd, 0.0f, 100.0f);
                         output_enable = (pwm_cmd > 0.0f) ? 1U : 0U;
                         regulation_stage = (pwm_cmd > 0.0f) ? 1U : 0U;
